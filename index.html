@@ -4,11 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- for favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+
     <!-- for font-style -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <link rel="stylesheet" href="css/style.css">
+
+    <!--https://lokeshdhakar.com/projects/lightbox2/
+        https://github.com/lokesh/lightbox2
+        for js part
+    -->
+    <link rel="stylesheet" href="css/lightbox.min.css">
+   
+    <!-- order of link to CSS sheet is important so you can  override the one above -->
+    <link rel="stylesheet" href="css/lightbox.min.css">
     <link rel="stylesheet" href="css/utilities.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <title>Welcome to EdgeLedger</title>
 </head>
@@ -95,20 +106,38 @@
             </header>
             <div class="row">
                 <div class="column">
-                    <img src="img/cases/cases1.jpg" alt="">
-                    <img src="img/cases/cases2.jpg" alt="">
+                    <!-- we put images into links so we can target them -->
+                    <a href="img/cases/cases1.jpg" data-lightbox="cases" data-title="">
+                        <img src="img/cases/cases1.jpg" alt="">
+                    </a>
+                   
+                    <a href="img/cases/cases2.jpg" data-lightbox="cases" data-title="">
+                        <img src="img/cases/cases2.jpg" alt="">
+                    </a>
                 </div>
                 <div class="column">
-                    <img src="img/cases/cases3.jpg" alt="">
-                    <img src="img/cases/cases4.jpg" alt="">
+                    <a href="img/cases/cases3.jpg" data-lightbox="cases" data-title="">
+                        <img src="img/cases/cases3.jpg" alt="">
+                    </a>
+                    <a href="img/cases/cases4.jpg" data-lightbox="cases" data-title="">
+                        <img src="img/cases/cases4.jpg" alt="">
+                    </a>
                 </div>
                 <div class="column">
-                    <img src="img/cases/cases5.jpg" alt="">
-                    <img src="img/cases/cases6.jpg" alt="">
+                    <a href="img/cases/cases5.jpg" data-lightbox="cases" data-title="">
+                        <img src="img/cases/cases5.jpg" alt="">
+                    </a>
+                    <a href="img/cases/cases6.jpg" data-lightbox="cases" data-title="">
+                        <img src="img/cases/cases6.jpg" alt="">
+                    </a>
                 </div>
                 <div class="column">
-                    <img src="img/cases/cases7.jpg" alt="">
-                    <img src="img/cases/cases8.jpg" alt="">
+                    <a href="img/cases/cases7.jpg" data-lightbox="cases" data-title="">
+                        <img src="img/cases/cases7.jpg" alt="">
+                    </a>
+                    <a href="img/cases/cases8.jpg" data-lightbox="cases" data-title="">
+                        <img src="img/cases/cases8.jpg" alt="">
+                    </a>
                 </div>
             </div>
         </section>
@@ -126,7 +155,7 @@
                         <h4>April 16 2022</h4>
                         <h2>Vlog Post One</h2>
                         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis quisquam ipsa quas placeat, ex molestiae necessitatibus aut fuga nam repellat alias pariatur voluptatibus ratione unde! Obcaecati vel animi ex adipisci?</p>
-                        <a href="" class="btn btn-outline">
+                        <a href="blog.html" class="btn btn-outline">
                             <i class="fas fa-chevron-right"></i> Read Our Blog</a>
                     </div>
                 </div>
@@ -189,17 +218,62 @@
                 </div>
             </div>
         </section>
-
-        <!-- Footer -->
-        <footer class="footer bg-dark">
-            <div class="social">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-            </div>
-            <p>Copyright &copy; 2023 - EdgeLedger</p>
-        </footer>
     </main>
+
+    <footer class="footer bg-dark">
+        <div class="social">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <p>Copyright &copy; 2023 - EdgeLedger</p>
+    </footer>
+
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+    <!-- script which is taken from github -->
+    <script src="js/lightbox.min.js"></script>
+
+    <!-- Javascript Bonus for Navbar Effects -->
+    <script>
+        const navbar = document.getElementById('navbar');
+        let scrolled = false;
+
+        window.onscroll = function() {
+            if(window.pageYOffset > 100){
+                /* if Y axis scrolled 100px then remove the class named top form navbar top then it will lose the CSS of navbar top which is transparent */
+                navbar.classList.remove('top');
+                if(!scrolled){
+                    navbar.style.transform = 'translateY(-70px)';
+                    /* when scrolled down it navbar will be pulled up 70px*/
+                }
+                setTimeout(function(){
+                    navbar.style.transform = 'translateY(0)';
+                    scrolled = true;
+                },200);
+            }else{
+                navbar.classList.add('top');
+                scrolled = false;
+            }
+        }
+
+        //Smooth Scrolling
+        $('#navbar a, .btn').on('click', function(e){
+            if(this.hash !== ''){
+                e.preventDefault();
+
+                const hash = this.hash;
+
+                $('html, body').animate(
+                    {
+                        scrollTop: $(hash).offset().top - 100,
+                    },
+                    800
+                );
+            }
+        });
+    </script>
 </body>
 </html>
